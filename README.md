@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 
-The **Restaurant Management System** is a desktop-based application developed using **Core Java** with **AWT & Swings**, and connected to a **MySQL** database.  
+The **Restaurant Management System** is a desktop-based application developed using **Core Java** with **AWT & Swings**, and connected to a **Oracle SQL** database.  
 It helps streamline restaurant operations such as table management, order placement, billing, and customer details.  
 This project simulates a basic point-of-sale (POS) system tailored for restaurants, allowing staff to efficiently manage day-to-day activities.
 
@@ -13,7 +13,7 @@ This project simulates a basic point-of-sale (POS) system tailored for restauran
 - To provide an easy-to-use interface for restaurant staff.
 - To automate manual order and billing processes.
 - To implement CRUD operations for customer and menu data.
-- To integrate a database with Java for real-time data handling.
+- Integrate Java with an OracleSQL database for reliable, real-time data management.
 
 ---
 
@@ -21,40 +21,45 @@ This project simulates a basic point-of-sale (POS) system tailored for restauran
 
 - **Programming Language**: Core Java  
 - **GUI Toolkit**: AWT and Swing  
-- **Database**: MySQL  
-- **Database Connectivity**: JDBC  
+- **Database**: Oracle SQL  
+- **Database Connectivity**: JDBC (with Oracle JDBC Driver)  
 - **IDE**: IntelliJ IDEA / Eclipse / NetBeans  
 - **Version Control**: Git & GitHub  
 
 ---
+
 ## 🧪 How to Run the Project
 
-1. **Setup MySQL Database**
-   - Import `restaurant_db.sql` into your MySQL server.
-   - Note the database username and password.
+### Step 1: Set up the OracleSQL Database
 
-2. **Configure JDBC Connection**
-   - In your Java code (usually in a config or utility file), update:
-     ```java
-     String url = "jdbc:mysql://localhost:3306/restaurant";
-     String user = "root";
-     String password = "your_password";
-     ```
+1. Install and set up **Oracle Database Express Edition (XE)** or another Oracle Database version.
+2. Execute the `restaurant_db.sql` script located in the `db/` directory to create the necessary schema and tables.
+3. Note the database connection details such as username, password, and connection URL.
 
-3. **Compile and Run**
-   - Use any Java IDE or terminal to compile and run `Main.java`.
+### Step 2: Configure JDBC Connection
 
+- In your Java code (typically in a configuration or database utility file), update the Oracle JDBC connection details:
+  ```java
+  String url = "jdbc:oracle:thin:@localhost:1521:XE"; // Adjust based on your Oracle setup
+  String user = "your_username";
+  String password = "your_password";
+
+Step 3: Compile and Run
+Open the project in your preferred Java IDE.
+
+Compile the source code.
+
+Run Main.java to launch the application.
 ---
 
 ## ✨ Key Features
 
-- 🔐 **Login System**: Simple login interface to restrict access.
-- 📋 **Order Management**: Take new orders and store them in the database.
-- 🍔 **Menu Management**: Add, update, or remove food items.
-- 🧾 **Billing System**: Generate a final bill based on order.
-- 🧑‍💼 **Customer Records**: Save and update customer details.
-- 🗃️ **Database Integration**: All data stored persistently in MySQL.
-- 🖼️ **User-Friendly GUI**: Built using AWT and Swing components.
+- 🔐 **Login System**: Secure login interface to restrict access.
+- 📋 **Order Management**: Efficient order entry and storage in the database.
+- 🍔 **Menu Management**: Capability to add, update, or remove food items.
+- 🧾 **Billing System**: Generation of final bills based on orders.
+- 🧑‍💼 **Customer Records**: Management of customer details and history.
+- 🗃️ **Database Integration**: All data persistently stored in an OracleSQL database.
+- 🖼️ **User-Friendly GUI**: Intuitive interface built with AWT and Swing.
 
 ---
-
