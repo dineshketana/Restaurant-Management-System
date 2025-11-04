@@ -1,65 +1,92 @@
 # 🍽️ Restaurant Management System
 
-## 📌 Project Overview
-
-The **Restaurant Management System** is a desktop-based application developed using **Core Java** with **AWT & Swings**, and connected to a **Oracle SQL** database.  
-It helps streamline restaurant operations such as table management, order placement, billing, and customer details.  
-This project simulates a basic point-of-sale (POS) system tailored for restaurants, allowing staff to efficiently manage day-to-day activities.
+A desktop-based Restaurant Management application built using **Java Swing (AWT & Swing GUI)** and **Oracle Database (JDBC)** for efficient restaurant order handling, billing, and payment management.
 
 ---
 
-## 🎯 Objectives
+## 📋 Overview
 
-- To provide an easy-to-use interface for restaurant staff.
-- To automate manual order and billing processes.
-- To implement CRUD operations for customer and menu data.
-- Integrate Java with an OracleSQL database for reliable, real-time data management.
+This project simulates a **complete restaurant management workflow**:
 
----
+- **Admin Panel** – Add or manage menu items.
+- **Customer Portal** – Place orders and view available dishes.
+- **Billing & Payment** – Auto-calculate bills, accept different payment methods, and generate printable receipts.
 
-## 🛠️ Technologies Used
-
-- **Programming Language**: Core Java  
-- **GUI Toolkit**: AWT and Swing  
-- **Database**: Oracle SQL  
-- **Database Connectivity**: JDBC (with Oracle JDBC Driver)  
-- **IDE**: IntelliJ IDEA / Eclipse / NetBeans  
-- **Version Control**: Git & GitHub  
+It connects Java Swing UI to an **Oracle 21c XE database** using **JDBC (ojdbc8.jar)**.
 
 ---
 
-## 🧪 How to Run the Project
+## 🧠 Features
 
-### Step 1: Set up the OracleSQL Database
+### 👨‍💼 Admin
+- Secure login using predefined credentials.
+- Add new food items with prices for single/double/mandi packs.
+- Automatic data insertion into Oracle database.
 
-1. Install and set up **Oracle Database Express Edition (XE)** or another Oracle Database version.
-2. Execute the `restaurant_db.sql` script located in the `db/` directory to create the necessary schema and tables.
-3. Note the database connection details such as username, password, and connection URL.
+### 👨‍👩‍👧‍👦 Customer
+- Simple login with name and phone number.
+- View available menu items from the database.
+- Place orders by selecting:
+  - Item ID
+  - Pack type (SC / DC / MC)
+  - Quantity
 
-### Step 2: Configure JDBC Connection
-
-- In your Java code (typically in a configuration or database utility file), update the Oracle JDBC connection details:
-  ```java
-  String url = "jdbc:oracle:thin:@localhost:1521:XE"; // Adjust based on your Oracle setup
-  String user = "your_username";
-  String password = "your_password";
-
-Step 3: Compile and Run
-Open the project in your preferred Java IDE.
-
-Compile the source code.
-
-Run Main.java to launch the application.
----
-
-## ✨ Key Features
-
-- 🔐 **Login System**: Secure login interface to restrict access.
-- 📋 **Order Management**: Efficient order entry and storage in the database.
-- 🍔 **Menu Management**: Capability to add, update, or remove food items.
-- 🧾 **Billing System**: Generation of final bills based on orders.
-- 🧑‍💼 **Customer Records**: Management of customer details and history.
-- 🗃️ **Database Integration**: All data persistently stored in an OracleSQL database.
-- 🖼️ **User-Friendly GUI**: Intuitive interface built with AWT and Swing.
+### 💳 Billing & Payment
+- Auto bill generation.
+- Choose payment method (Cash / Card / UPI).
+- Calculates total, amount paid, and change.
+- Stores payment record in `PAYMENT` table.
+- Printable receipt window (Ctrl + P support).
 
 ---
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|-------|-------------|
+| **Frontend (GUI)** | Java Swing (AWT & Swing components) |
+| **Backend** | Core Java (JDBC, OOP) |
+| **Database** | Oracle Database 21c XE |
+| **Driver** | ojdbc8.jar |
+| **IDE (Recommended)** | IntelliJ IDEA / VS Code / Eclipse |
+| **Language** | Java 17+ |
+
+---
+
+## 🗄️ Database Schema
+
+### 🧾 Tables:
+
+#### 1️⃣ RESTAURANTMANAGEMENT (Menu)
+| Column | Type | Description |
+|---------|------|-------------|
+| IID | NUMBER | Item ID (Primary Key) |
+| INAME | VARCHAR2(40) | Item Name |
+| SC | NUMBER | Single Cost |
+| DC | NUMBER | Double Cost |
+| MC | NUMBER | Mandi Cost |
+
+#### 2️⃣ CUSTOMER
+| Column | Type | Description |
+|---------|------|-------------|
+| CNAME | VARCHAR2(40) | Customer Name |
+| CPHONE | VARCHAR2(40) | Phone Number |
+| CBILL | NUMBER | Bill Amount |
+
+#### 3️⃣ PAYMENT
+| Column | Type | Description |
+|---------|------|-------------|
+| PAY_ID | NUMBER (Auto) | Payment ID |
+| CNAME | VARCHAR2(40) | Customer Name |
+| CPHONE | VARCHAR2(40) | Phone Number |
+| ITEM_ID | NUMBER | Ordered Item |
+| PACK | VARCHAR2(3) | SC / DC / MC |
+| QTY | NUMBER | Quantity |
+| UNIT_PRICE | NUMBER | Price per unit |
+| TOTAL | NUMBER | Total Bill |
+| METHOD | VARCHAR2(20) | Payment Mode |
+| PAID | NUMBER | Amount Paid |
+| CHANGE | NUMBER | Balance Returned |
+| STATUS | VARCHAR2(20) | PAID / PENDING |
+| PAID_AT | TIMESTAMP | Auto timestamp |
+
