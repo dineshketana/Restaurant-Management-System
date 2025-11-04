@@ -1,0 +1,127 @@
+=============================================
+      ORACLE XE RESTAURANT PROJECT SETUP
+=============================================
+
+This guide helps you create your own Oracle user (DBMS)
+inside the pluggable database XEPDB1, and then create
+all project tables (Restaurant, Customer, Payment).
+
+---------------------------------------------
+🧩 STEP 1 — CHECK CURRENT CONTAINER
+---------------------------------------------
+
+SHOW CON_NAME;
+
+-- If output is:
+-- CDB$ROOT
+-- Then you are still in the ROOT container.
+-- You must switch to the pluggable DB (XEPDB1).
+
+---------------------------------------------
+🧩 STEP 2 — SWITCH TO YOUR PLUGGABLE DATABASE
+---------------------------------------------
+
+ALTER SESSION SET CONTAINER = XEPDB1;
+
+SHOW CON_NAME;
+
+-- It should now show:
+-- XEPDB1 ✅
+
+---------------------------------------------
+🧩 STEP 3 — CREATE USER AND GRANT PRIVILEGES
+---------------------------------------------
+
+CREATE USER DBMS IDENTIFIED BY DBMS;
+GRANT CONNECT, RESOURCE TO DBMS;
+ALTER USER DBMS QUOTA UNLIMITED ON USERS;
+
+-- Expected messages:
+-- User created.
+-- Grant succeeded.
+-- User altered.
+
+---------------------------------------------
+🧩 STEP 4 — CONNECT AS YOUR NEW USER
+---------------------------------------------
+
+CONNECT DBMS/DBMS@localhost:1521/XEPDB1
+
+-- If you see:
+-- Connected.
+-- ✅ You’re inside your new schema.
+
+---------------------------------------------
+🧩 STEP 5 — CREATE PROJECT TABLES
+---------------------------------------------
+
+-- MENU TABLE
+CREATE TABLE RESTAURANTMANAGEMENT (
+  IID NUMBER PRIMARY KEY,
+  INAME VARCHAR2(100) NOT NULL,
+  SC NUMBER NOT NULL,
+  DC NUMBER NOT NULL,
+  MC NUMBER NOT NULL
+);
+
+-- CUSTOMER TABLE
+CREATE TABLE CUSTOMER (
+  CNAME VARCHAR2(100) NOT NULL,
+  CPHONE VARCHAR2(20) NOT NULL,
+  CBILL NUMBER,
+  CONSTRAINT CUSTOMER_PK PRIMARY KEY (CNAME, CPHONE)
+);
+
+-- PAYMENT TABLE
+CREATE TABLE PAYMENT (
+  PAY_ID NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  CNAME VARCHAR2(100) NOT NULL,
+  CPHONE VARCHAR2(20) NOT NULL,
+  ITEM_ID NUMBER NOT NULL,
+  PACK VARCHAR2(3) NOT NULL,
+  QTY NUMBER NOT NULL,
+  UNIT_PRICE NUMBER NOT NULL,
+  TOTAL NUMBER NOT NULL,
+  METHOD VARCHAR2(20) NOT NULL,
+  PAID NUMBER NOT NULL,
+  CHANGE NUMBER NOT NULL,
+  STATUS VARCHAR2(20) NOT NULL,
+  PAID_AT TIMESTAMP DEFAULT SYSTIMESTAMP
+);
+
+---------------------------------------------
+🧩 STEP 6 — VERIFY YOUR TABLES
+---------------------------------------------
+
+SELECT TABLE_NAME FROM USER_TABLES;
+
+-- Expected Output:
+-- RESTAURANTMANAGEMENT
+-- CUSTOMER
+-- PAYMENT
+-- ✅ All tables created successfully.
+
+---------------------------------------------
+🧩 STEP 7 — UPDATE YOUR JAVA CONNECTION DETAILS
+---------------------------------------------
+
+In your Java file (RestaurantManagement.java):
+
+private static final String JDBC_URL  = "jdbc:oracle:thin:@//localhost:1521/XEPDB1";
+private static final String JDBC_USER = "DBMS";
+private static final String JDBC_PASS = "DBMS";
+
+---------------------------------------------
+🧩 STEP 8 — COMPILE AND RUN YOUR JAVA PROJECT
+---------------------------------------------
+
+javac -cp .;ojdbc8.jar RestaurantManagement.java
+java  -cp .;ojdbc8.jar RestaurantManagement
+
+-- ✅ Your GUI app will now connect successfully
+--    to your Oracle 21c XE database and use
+--    the DBMS schema.
+
+=============================================
+✅ SETUP COMPLETE — YOU’RE READY TO RUN!
+=============================================
